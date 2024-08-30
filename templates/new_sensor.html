@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}New Sensor{% endblock %}
+
+{% block content %}
+<h1>New Sensor</h1>
+<form method="post">
+    <label for="name">Sensor Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required>
+    
+    <label for="interval">Interval:</label>
+    <select id="interval" name="interval" required>
+        <option value="1">1 minute</option>
+        <option value="2">2 minutes</option>
+        <option value="3">3 minutes</option>
+        <option value="4">4 minutes</option>
+        <option value="5">5 minutes</option>
+        <option value="10">10 minutes</option>
+        <option value="15">15 minutes</option>
+        <option value="20">20 minutes</option>
+        <option value="30">30 minutes</option>
+        <option value="45">45 minutes</option>
+        <option value="60">1 hour</option>
+        <option value="120">2 hours</option>
+        <option value="240">4 hours</option>
+        <option value="360">6 hours</option>
+        <option value="720">12 hours</option>
+        <option value="1440">24 hours</option>
+    </select>
+    
+    <button type="submit">Create Sensor</button>
+</form>
+{% endblock %}

@@ -3,5 +3,33 @@
 {% block title %}Admin Centre{% endblock %}
 
 {% block content %}
-<h1>Welcome to the Admin Centre</h1>
+<h1>Admin Centre</h1>
+
+<!-- Buttons for adding, editing, and removing sensors -->
+<div>
+    <a href="{{ url_for('new_sensor') }}"><button>New Sensor</button></a>
+    <a href="#"><button>Edit Sensor</button></a>
+    <a href="#"><button>Remove Sensor</button></a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Sensor Name</th>
+            <th>Location</th>
+            <th>Interval</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sensor in sensors %}
+        <tr>
+            <td><a href="#"> {{ sensor.name }} </a></td>
+            <td>{{ sensor.location }}</td>
+            <td>{{ sensor.interval }}</td>
+            <td><a href="{{ url_for('edit_sensor', sensor_id=sensor.sensor_id) }}">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

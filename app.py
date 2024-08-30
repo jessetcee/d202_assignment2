@@ -19,7 +19,27 @@ def dashboard():
 
 @app.route("/admin_centre/")
 def admin_centre():
-    return render_template("admin_centre.html")
+    conn = get_db_connection()
+    sensors = conn.execute('SELECT * FROM sensors').fetchall()
+    conn.close()
+    return render_template("admin_centre.html", sensors=sensors)
+
+@app.route("/new_sensor", methods=["GET", "POST"])
+def new_sensor():
+    if request.method == "POST":
+        name = request.form.get("name")
+        location = request.form.get("location")
+        interval = request.form.get("interval")
+        
+        conn = get_db_connection()
+        conn.execute('INSERT INTO sensors (name, location, interval) VALUES (?, ?, ?)',
+                     (name, location, interval))
+        conn.commit()
+        conn.close()
+        
+        return redirect(url_for('admin_centre'))
+    
+    return render_template("new_sensor.html")
 
 @app.route("/hello/")
 @app.route("/hello/<name>")
