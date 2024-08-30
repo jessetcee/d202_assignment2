@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=\\22358599.HDrive.uict.nz\HDrive\22358599\Local\Desktop\SEM2\d202\prac-flask\.venv
+set VIRTUAL_ENV=c:\Users\cairnsc\d202_assignment2\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
