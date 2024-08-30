@@ -1,9 +1,9 @@
 import datetime
 import sqlite3
-from flask import render_template, Flask, request, redirect, url_for
+from flask import render_template, Flask, request, redirect, url_for, session
 
 app = Flask(__name__)
-
+app.secret_key = 'super_secret_key'
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -44,7 +44,9 @@ def login():
         conn.close()
 
         if user:
-            return f"Logged in as {username}"
+            session['username'] = username
+            session['is_admin'] = user['is_admin']  # Store the admin status in the session
+            return redirect(url_for('dashboard'))
         else:
             return "Invalid credentials, please try again."
 
