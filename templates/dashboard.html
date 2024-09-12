@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Dashboard{% endblock %}
@@ -5,4 +6,56 @@
 {% block content %}
 <h1>Welcome to the Dashboard</h1>
 <h3>Content will be in here</h3>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Style.css')}}" />
+    <link rel="stylesheet" href="/static/Style.css">
+<body>
+    <div class="ui_container">
+        <h2 class="ui header">Temperature Dashboard</h2>
+        <div class="ui_grid">
+            <div class="four wide column" id="sensor_1">
+                <h3>Office</h3>
+                <div class="ui statistic">
+                    <div class="value" id="sensor_1_temp">--</div>
+                    <div class="label">°C</div>
+                </div>
+            </div>
+            <div class="four wide column" id="sensor_2">
+                <h3>Server Room 1</h3>
+                <div class="ui statistic">
+                    <div class="value" id="sensor_2_temp">--</div>
+                    <div class="label">°C</div>
+                </div>
+            </div>
+            <div class="four wide column" id="sensor_3">
+                <h3>Server Room 2</h3>
+                <div class="ui statistic">
+                    <div class="value" id="sensor_3_temp">--</div>
+                    <div class="label">°C</div>
+                </div>
+            </div>
+            <div class="four wide column" id="sensor_4">
+                <h3>Storage Room</h3>
+                <div class="ui statistic">
+                    <div class="value" id="sensor_4_temp">--</div>
+                    <div class="label">°C</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+
+
+
+
 {% endblock %}
