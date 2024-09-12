@@ -1,5 +1,6 @@
 import datetime
 import sqlite3
+import random
 from flask import render_template, Flask, request, redirect, url_for, session
 
 app = Flask(__name__)
@@ -15,7 +16,8 @@ def home():
 
 @app.route("/dashboard/")
 def dashboard():
-    return render_template("dashboard.html")
+    temp_number = random.randint(-30, 50)
+    return render_template("dashboard.html", temp_number=temp_number)
 
 @app.route("/admin_centre/")
 def admin_centre():

@@ -1,8 +1,18 @@
 {% extends "base.html" %}
-
 {% block title %}Dashboard{% endblock %}
-
 {% block content %}
+<body>
 <h1>Welcome to the Dashboard</h1>
-<h3>Content will be in here</h3>
+<div>
+    <h4>Content will be in here</h4>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 grid-item">Temperature Reading: {{ temp_number }}</div>
+            <div class="col-4 grid-item">Location: </div>
+            <div class="col-4 grid-item">3</div>
+        </div>
+       
+    </div>
+</div>
+</body>
 {% endblock %}
