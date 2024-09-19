@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Temperature Readings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="/static/Style.css">
+</head>
+<body>
+    <div class="ui container">
+        <h2 class="ui header">Saved Temperature Readings</h2>
+        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sensor Name</th>
+                    <th>Location</th>
+                    <th>Temperature (°C)</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reading in readings %}
+                <tr>
+                    <td>{{ reading[0] }}</td>
+                    <td>{{ reading[1] }}</td>
+                    <td>{{ reading[2] }}</td>
+                    <td>{{ reading[3] }}</td>
+                    <td>{{ reading[4] }}</td>
+                    
+                </tr>
+                
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align:center">No data available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="add-button">
+            <a href="/add-sensor" class="ui green button">Add New Sensor</a>
+        </div>
+
+        <div class="delete-button">
+            <a href="/delete-readings" class="ui blue button">Delete All Readings</a>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Temperature Sensor Dashboard</p>
+        </div>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
