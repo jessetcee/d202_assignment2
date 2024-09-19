@@ -4,6 +4,7 @@ import random
 import time
 import os
 import sqlite3
+
 from flask import render_template, Flask, request, redirect, url_for, session, jsonify
 
 app = Flask(__name__)
@@ -68,8 +69,7 @@ def get_latest_readings():
 
 @app.route("/")
 def home():
-    return render_template("login.html")
-    console.log("loading..")
+    return render_template("dashboard.html")
 
 @app.route("/base/")
 def base():
@@ -86,9 +86,9 @@ def account():
 @app.route("/admin_centre/")
 def admin_centre():
   #  conn = get_db_connection()
-   # sensors = conn.execute('SELECT * FROM sensors').fetchall()
-   #conn.close()
-    return render_template("admin_centre.html")
+  #  sensors = conn.execute('SELECT * FROM sensors').fetchall()
+  #  conn.close()
+    return render_template("login.html")
 
 @app.route("/new_sensor", methods=["GET", "POST"])
 def new_sensor():
@@ -104,6 +104,8 @@ def new_sensor():
         conn.close()
         
         return redirect(url_for('admin_centre'))
+    
+        print("inserting into table ", + name + ' ' + location + ' ' + interval)
     
     return render_template("new_sensor.html")
 
@@ -128,8 +130,9 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             return "Invalid credentials, please try again."
+        
 
-    return render_template("login.html")
+    return render_template("admin_centre.html")
 
 
 # Simulating temperature data from various sensors
