@@ -11,11 +11,11 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="">Account</a></li>
-                <li><a href="{{ url_for('login') }}">Log Out</a></li>
                 {% if session.get('is_admin') %}
+                <li><a href="{{ url_for('account') }}">Account</a></li>
                 <li><a href="{{ url_for('admin_centre') }}">Admin Centre</a></li>
                 <li><a href="{{ url_for('readings') }}">Temperature Readings</a></li>
+                <li><a href="{{ url_for('login') }}">Log Out</a></li>
                 {% endif %}
             </ul>
         </nav>

@@ -13,6 +13,9 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+if __name__ == "__main__":
+    app.run(port=8000, debug=True)
+
 
 # Path to the SQLite database file
 DATABASE = 'sensors.db'
@@ -66,17 +69,26 @@ def get_latest_readings():
 @app.route("/")
 def home():
     return render_template("login.html")
+    console.log("loading..")
+
+@app.route("/base/")
+def base():
+    return render_template("login.html")
 
 @app.route("/dashboard/")
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/account")
+def account():
+    return render_template("account.html")
+
 @app.route("/admin_centre/")
 def admin_centre():
-    conn = get_db_connection()
-    sensors = conn.execute('SELECT * FROM sensors').fetchall()
-    conn.close()
-    return render_template("admin_centre.html", sensors=sensors)
+  #  conn = get_db_connection()
+   # sensors = conn.execute('SELECT * FROM sensors').fetchall()
+   #conn.close()
+    return render_template("admin_centre.html")
 
 @app.route("/new_sensor", methods=["GET", "POST"])
 def new_sensor():
@@ -95,9 +107,6 @@ def new_sensor():
     
     return render_template("new_sensor.html")
 
-@app.route("/base")
-def base():
-    return render_template("login.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -121,7 +130,6 @@ def login():
             return "Invalid credentials, please try again."
 
     return render_template("login.html")
-
 
 
 # Simulating temperature data from various sensors
