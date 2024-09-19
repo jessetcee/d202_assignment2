@@ -63,10 +63,9 @@ def get_latest_readings():
 
 
 
-
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("login.html")
 
 @app.route("/dashboard/")
 def dashboard():
@@ -96,6 +95,9 @@ def new_sensor():
     
     return render_template("new_sensor.html")
 
+@app.route("/base")
+def base():
+    return render_template("login.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
