@@ -169,27 +169,38 @@ def dashboard():
     latest_readings = get_latest_readings()
     return render_template("dashboard.html", readings=latest_readings)
 
-@app.route("/add_reading", methods=['POST'])
+@app.route("/api/meters", methods=['GET', 'POST'])
 def add_reading():
-    if request.is_json:
+    if request.method == "POST":
+        if request.is_json:
+            try:
+                data = request.get_json()
+
+                for sensor in data:
+                    values = (sensor["id"], sensor["reading"], sensor["timestamp"], sensor["location"])
+
+                    conn = sqlite3.connect(DATABASE)
+                    conn.execute('INSERT INTO TemperatureReadings (sensor_id, temperature, timestamp, location) VALUES (?, ?, ?, ?)', values)
+                    conn.commit()
+                    conn.close()
+
+                return jsonify({'message': 'Reading added successfully!'}), 201
+            except Exception as e:
+                print(f'Error: {e}')
+                return jsonify({'error': str(e)}), 400
+        else:
+            print(f'Error: Request body must be JSON')
+            return jsonify({'error': 'Request body must be JSON'}), 400
+    elif request.method == "GET":
         try:
-            data = request.get_json()
+            conn = sqlite3.connect(DATABASE)
+            data = conn.execute("SELECT * FROM Sensors").fetchall()
+            conn.commit()
+            conn.close()
 
-            for sensor in data:
-                values = (sensor["id"], sensor["reading"], sensor["timestamp"], sensor["location"])
-
-                conn = sqlite3.connect(DATABASE)
-                conn.execute('INSERT INTO TemperatureReadings (sensor_id, temperature, timestamp, location) VALUES (?, ?, ?, ?)', values)
-                conn.commit()
-                conn.close()
-
-            return jsonify({'message': 'Reading added successfully!'}), 201
+            return jsonify(data), 201
         except Exception as e:
             print(f'Error: {e}')
-            return jsonify({'error': str(e)}), 400
-    else:
-        print(f'Error: Request body must be JSON')
-        return jsonify({'error': 'Request body must be JSON'}), 400
 
 @app.route('/readings')
 def readings():

@@ -1,31 +1,28 @@
 import time
 import json
 import random
-import sqlite3
 import requests
 import requests.exceptions
 
 from datetime import datetime
 
-url = 'http://127.0.0.1:5000/add_reading'
+url = 'http://127.0.0.1:5000/api/meters'
 
 def send_meter_data():
-    conn = sqlite3.connect('../database.db')
     while True:
         data = []
-        sensors = conn.execute("SELECT * FROM Sensors")
-        # sensors = conn.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        sensors = request_meter_data()
         
-        for Sensors in sensors.fetchall():
+        for sensor in sensors:
             reading = 0
             
-            if Sensors[4] == "ACTIVE":
+            if sensor[4] == "ACTIVE":
                 reading = random.randint(20, 35)
 
             data.append({
-                "id": Sensors[0],
-                "location": Sensors[2],
-                "description": Sensors[3],
+                "id": sensor[0],
+                "location": sensor[2],
+                "description": sensor[3],
                 "reading": reading,
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             })
@@ -40,6 +37,15 @@ def send_meter_data():
             print(f'Error: {e}')
 
         time.sleep(5)
+
+def request_meter_data():
+    try:
+        headers = {'Accept': "application/json"}
+        response = requests.get(url, headers=headers)
+
+        return response.json()
+    except Exception as e:
+        print(f'Error: {e}')
 
 def add_col_to_table():
     conn = sqlite3.connect("../database.db")
@@ -94,4 +100,5 @@ def change_sensor_info():
 # change_sensor_info()
 # add_col_to_table()
 # get_sql_data()
+# request_meter_data()
 send_meter_data()
