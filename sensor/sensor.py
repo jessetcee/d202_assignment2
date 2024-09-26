@@ -13,30 +13,34 @@ def send_meter_data():
         data = []
         sensors = request_meter_data()
         
-        for sensor in sensors:
-            reading = 0
-            
-            if sensor[4] == "ACTIVE":
-                reading = random.randint(20, 35)
+        if sensors:
+            for sensor in sensors:
+                reading = 0
+                
+                if sensor[4] == "ACTIVE":
+                    reading = random.randint(20, 35)
 
-            data.append({
-                "id": sensor[0],
-                "location": sensor[2],
-                "description": sensor[3],
-                "reading": reading,
-                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            })
+                data.append({
+                    "id": sensor[0],
+                    "location": sensor[2],
+                    "description": sensor[3],
+                    "reading": reading,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                })
 
-        json_data = json.dumps(data)
+            json_data = json.dumps(data)
 
-        try:
-            headers = {'Content-Type': 'application/json'}
-            response = requests.post(url, data=json_data, headers=headers)
-            print(f"Data sent: {data}, Status code: {response.status_code}")
-        except requests.exceptions.RequestException as e:
-            print(f'Error: {e}')
+            try:
+                headers = {'Content-Type': 'application/json'}
+                response = requests.post(url, data=json_data, headers=headers)
+                print(f"Data sent: {data}, Status code: {response.status_code}")
+            except requests.exceptions.RequestException as e:
+                print(f'Error: {e}')
 
-        time.sleep(5)
+            time.sleep(5)
+        else:
+            print(f'Endpoint is not available!')
+            return
 
 def request_meter_data():
     try:
