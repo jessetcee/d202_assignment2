@@ -1,0 +1,9 @@
+<nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    {% if session.get('is_admin') %}
+    <a href="{{ url_for('admin_centre') }}">Admin Centre</a>
+    <a href="{{ url_for('readings') }}">Temperature Readings</a>
+    {% endif %}
+    <a href="">Account</a>
+    <a href="">Log Out</a>
+</nav>

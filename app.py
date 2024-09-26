@@ -15,7 +15,7 @@ def get_db_connection():
 
 
 # Path to the SQLite database file
-DATABASE = 'sensors.db'
+DATABASE = 'database.db'
 
 # Create the database file and table if it doesn’t exist
 def init_db():
@@ -83,29 +83,15 @@ def save_sensor_data(sensor_id, temperature):
 # Function to get the latest 10 temperature readings from the database
 def get_latest_readings():
     conn = sqlite3.connect(DATABASE)
+    
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT distinct s.id, s.sensor_name, s.location, r.temperature, r.timestamp
+        SELECT DISTINCT s.id, s.sensor_name, s.location, r.temperature, r.timestamp
         FROM TemperatureReading r
         JOIN Sensor s ON r.sensor_id = s.id
         ORDER BY r.timestamp DESC
-        LIMIT 10
     ''')
-    readings = cursor.fetchall()
-    conn.close()
-    return readings
 
-#readings for dashboard
-def get_live_readings():
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT distinct s.sensor_name, s.location, r.temperature, r.timestamp
-        FROM TemperatureReading r
-        JOIN Sensor s ON r.sensor_id = s.id
-        ORDER BY r.timestamp DESC
-        LIMIT 25
-    ''')
     readings = cursor.fetchall()
     conn.close()
     return readings
@@ -122,14 +108,32 @@ def get_and_save_sensor_data():
 # Initialize the database
 init_db()
 
-
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/dashboard/")
+@app.route("/add_reading", methods=['POST'])
+def add_reading():
+    if request.is_json:
+        try:
+            data = request.get_json()[0]
+            values = (data["id"], data["reading"], data["timestamp"], data["location"])
+
+            conn = sqlite3.connect(DATABASE)
+            conn.execute('INSERT INTO TemperatureReading (sensor_id, temperature, timestamp, location) VALUES (?, ?, ?, ?)', values)
+            conn.commit()
+            conn.close()
+
+            return jsonify({'message': 'Reading added successfully!'}), 201
+        except Exception as e:
+            print(f'Error: {e}')
+            return jsonify({'error': str(e)}), 400
+    else:
+        print(f'Error: Request body must be JSON')
+        return jsonify({'error': 'Request body must be JSON'}), 400
+
+@app.route("/dashboard/", methods=['GET'])
 def dashboard():
-    get_and_save_sensor_data()
     latest_readings = get_latest_readings()
     return render_template("dashboard.html", readings=latest_readings)
 
@@ -158,8 +162,6 @@ def admin_centre():
     
 #     return render_template("readings.html")
 
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -168,8 +170,7 @@ def login():
         
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', 
-                       (username, password))
+        cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
         user = cursor.fetchone()
         conn.close()
 
@@ -182,16 +183,10 @@ def login():
 
     return render_template("login.html")
 
-
-
-
-
 @app.route('/api/sensor-data')
 def sensor_data():
     sensor_data = get_and_save_sensor_data()
     return jsonify(sensor_data)
-
-
 
 @app.route('/readings')
 def readings():
@@ -208,8 +203,6 @@ def add_sensor_route():
     
     return render_template('add_sensor.html')  # Render the form to add a new sensor
 
-
-# Testing code, currently errors
 def delete_temp_readings():
     conn= sqlite3.connect(DATABASE)
     cursor= conn.cursor()

@@ -1,118 +1,19 @@
-
 {% extends "base.html" %}
 
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Sensor Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-    <!-- Add a meta tag to refresh the page every 5 seconds -->
-    <meta http-equiv="refresh" content="5">
-    <style>
-        body {
-            background-color: #f4f4f4;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-        }
-    </style>
-</head>
-<body>
-    <div class="ui container">
-        <h2>Live Temperature Readings</h2>
-
-        <table id="readings-table">
-            <thead>
-                <tr>
-                    <th>Sensorr Name</th>
-                    <th>Location</th>
-                    <th>Temperature (°C)</th>
-                    <th>Timestamp</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                {% for reading in readings %}
-                    <tr>
-                        <td>{{ reading[1] }}</td> <!-- Sensor Name -->
-                        <td>{{ reading[2] }}</td> <!-- Location -->
-                        <td>{{ reading[3] }}</td> <!-- Temperature -->
-                        <td>{{ reading[4] }}</td> <!-- Timestamp -->
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+{% include 'navbar.html' %}
+<div id="dashboard">
+    <h2>Live Temperature Readings</h2>
+    <div id="readings">
+        {% for reading in readings %}
+            <div id="readings--card">
+                <p id="location">{{ reading[2] }}</p>
+                <h3 id="temperature">{{ reading[3] }}</h3>
+                <p id="timestamp">{{ reading[4] }}</p>
+            </div>
+        {% endfor %}
     </div>
-</body>
-</html>
-
-
-
-
-
-
-
+</div>
 {% endblock %}
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Style.css')}}" />
-    <link rel="stylesheet" href="/static/Style.css">
-<body>
-    <div class="ui_container">
-        <h2 class="ui header">Temperature Dashboard</h2>
-        <div class="ui_grid">
-            <div class="four wide column" id="sensor_1">
-                <h3>Office</h3>
-                <div class="ui statistic">
-                    <div class="value" id="sensor_1_temp">--</div>
-                    <div class="label">°C</div>
-                </div>
-            </div>
-            <div class="four wide column" id="sensor_2">
-                <h3>Server Room 1</h3>
-                <div class="ui statistic">
-                    <div class="value" id="sensor_2_temp">--</div>
-                    <div class="label">°C</div>
-                </div>
-            </div>
-            <div class="four wide column" id="sensor_3">
-                <h3>Server Room 2</h3>
-                <div class="ui statistic">
-                    <div class="value" id="sensor_3_temp">--</div>
-                    <div class="label">°C</div>
-                </div>
-            </div>
-            <div class="four wide column" id="sensor_4">
-                <h3>Storage Room</h3>
-                <div class="ui statistic">
-                    <div class="value" id="sensor_4_temp">--</div>
-                    <div class="label">°C</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="/static/script.js"></script>
-</body>
-</html> -->

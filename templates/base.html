@@ -4,32 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My App{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='Style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="">Account</a></li>
-                <li><a href="">Log Out</a></li>
-                {% if session.get('is_admin') %}
-                <li><a href="{{ url_for('admin_centre') }}">Admin Centre</a></li>
-                <li><a href="{{ url_for('readings') }}">Temperature Readings</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-
-    
-    <main>
-        {% block content %}
-        <!-- Page-specific content will go here -->
-        {% endblock %}
-    </main>
-
-    <footer>
-        <p>Footer content here</p>
-    </footer>
+    {% block content %}{% endblock %}
 </body>
 </html>
