@@ -1,9 +1,40 @@
 <nav>
-    <a href="{{ url_for('dashboard') }}">Dashboard</a>
-    {% if session.get('is_admin') %}
-    <a href="{{ url_for('admin_centre') }}">Admin Centre</a>
-    <a href="{{ url_for('readings') }}">Temperature Readings</a>
-    {% endif %}
-    <a href="">Account</a>
-    <a href="">Log Out</a>
+    <div class="nav-group">
+        <a href="{{ url_for('dashboard') }}">DASHBOARD</a>
+        {% if session.get('is_admin') %}
+        <a href="{{ url_for('readings') }}">READINGS</a>
+        <a href="{{ url_for('sensors') }}">SENSORS</a>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('logout') }}">LOG OUT</a>
 </nav>
+
+<style>
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 50px;
+    padding: 10px 50px;
+    background-color: #C5C5C5;
+}
+
+.nav-group {
+    display: flex;
+    gap: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-weight: 800;
+    transition: 0.3s;
+    font-size: 20px;
+    padding: 10px;
+}
+
+a:hover {
+    font-weight: 800;
+}
+</style>

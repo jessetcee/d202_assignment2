@@ -8,12 +8,74 @@
     <h2>Live Temperature Readings</h2>
     <div id="readings">
         {% for reading in readings %}
-            <div id="readings--card">
-                <p id="location">{{ reading[2] }}</p>
-                <h3 id="temperature">{{ reading[3] }}</h3>
-                <p id="timestamp">{{ reading[4] }}</p>
+            <div id="card">
+                <div class="card-group">
+                    <p id="sensor-name">{{ reading[2].capitalize() }}</p>
+                </div>
+                <div class="card-group">
+                    <h3 id="temperature">{{ reading[4] }}&#8451;</h3>
+                </div>
+                <div class="card-group">
+                    <p id="location">{{ reading[3] }}</p>
+                    <p id="timestamp">{{ reading[5] }}</p>
+                </div>
             </div>
         {% endfor %}
     </div>
 </div>
+
+<style>
+#dashboard {
+    width: calc(100vw - 50px);
+    height: calc(100vh - 120px);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.9fr;
+    overflow-y: scroll;
+    padding: 25px;
+    background-color: rgb(241, 241, 241);
+}
+
+h2 {
+    font-size: 30px;
+}
+
+#readings {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+#card {
+    width: 200px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 25px;
+    border-radius: 10px;
+    text-align: center;
+    gap: 5px;
+}
+
+#temperature {
+    font-size: 40px;
+}
+
+#location, #timestamp {
+    font-size: 15px;
+    color: #969696;
+}
+</style>
 {% endblock %}

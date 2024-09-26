@@ -1,15 +1,15 @@
 function updateSensorData() {
-    fetch('/api/sensor-data')
+    fetch('/api/Sensors-data')
         .then(response => response.json())
         .then(data => {
-            for (const sensor in data) {
-                document.getElementById(`${sensor}_temp`).innerText = data[sensor].temp;
+            for (const Sensors in data) {
+                document.getElementById(`${Sensors}_temp`).innerText = data[Sensors].temp;
             }
         });
 }
 
-// Update sensor data every 5 seconds
+// Update Sensors data every 5 seconds
 setInterval(updateSensorData, 4000);
 
-// Fetch initial sensor data when the page loads
+// Fetch initial Sensors data when the page loads
 updateSensorData();

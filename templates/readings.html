@@ -1,52 +1,102 @@
 {% extends 'base.html' %}
-{% block title %}Sensor Readings{% endblock %}
+{% block title %}Temp Readings{% endblock %}
 
 {% block content %}
 
 {% include 'navbar.html' %}
-<div class="ui container">
+<div id="dashboard">
     <h2 class="ui header">Saved Temperature Readings</h2>
-    <table class="ui celled table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sensor Name</th>
-                <th>Location</th>
-                <th>Temperature (°C)</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for reading in readings %}
-            <tr>
-                <td>{{ reading[0] }}</td>
-                <td>{{ reading[1] }}</td>
-                <td>{{ reading[2] }}</td>
-                <td>{{ reading[3] }}</td>
-                <td>{{ reading[4] }}</td>
+    <div id="table-container">
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>READING ID</th>
+                    <th>SENSOR ID</th>
+                    <th>SENSOR NAME</th>
+                    <th>LOCATION</th>
+                    <th>TEMPERATURE (°C)</th>
+                    <th>TIMESTAMP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reading in readings %}
+                <tr>
+                    <td>{{ reading[0] }}</td>
+                    <td>{{ reading[1] }}</td>
+                    <td>{{ reading[2] }}</td>
+                    <td>{{ reading[3] }}</td>
+                    <td>{{ reading[4] }}</td>
+                    <td>{{ reading[5] }}</td>
+                    
+                </tr>
                 
-            </tr>
-            
-            {% else %}
-            <tr>
-                <td colspan="4" style="text-align:center">No data available</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="add-button">
-        <a href="/add-sensor" class="ui green button">Add New Sensor</a>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center">No data available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-    <div class="delete-button">
-        <a href="/delete-readings" class="ui blue button">Delete All Readings</a>
-    </div>
+    <button>
+        <a href="/delete_readings">Delete All Readings</a>
+    </button>
 
-    <div class="footer">
-        <p>&copy; 2024 Temperature Sensor Dashboard</p>
-    </div>
-        </tbody>
-    </table>
 </div>
+
+<style>
+
+#dashboard {
+    width: calc(100vw - 50px);
+    height: calc(100vh - 120px);
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.8fr 0.1fr;
+    overflow-y: scroll;
+    padding: 25px;
+    background-color: rgb(241, 241, 241);
+}
+
+h2 {
+    font-size: 30px;
+}
+
+#table-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+th {
+    width: auto;
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+td {
+    height: 1%;
+    white-space: nowrap;
+    text-align: center;
+    padding: 5px 10px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+</style>
 {% endblock %}

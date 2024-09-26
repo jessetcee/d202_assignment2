@@ -13,19 +13,19 @@ def send_meter_data():
     conn = sqlite3.connect('../database.db')
     while True:
         data = []
-        sensors = conn.execute("SELECT * FROM Sensor")
+        sensors = conn.execute("SELECT * FROM Sensors")
         # sensors = conn.execute("SELECT name FROM sqlite_master WHERE type='table'")
         
-        for sensor in sensors.fetchall():
+        for Sensors in sensors.fetchall():
             reading = 0
             
-            if sensor[4] == "ACTIVE":
+            if Sensors[4] == "ACTIVE":
                 reading = random.randint(20, 35)
 
             data.append({
-                "id": sensor[0],
-                "location": sensor[2],
-                "description": sensor[3],
+                "id": Sensors[0],
+                "location": Sensors[2],
+                "description": Sensors[3],
                 "reading": reading,
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             })
@@ -43,16 +43,16 @@ def send_meter_data():
 
 def add_col_to_table():
     conn = sqlite3.connect("../database.db")
-    # conn.execute("ALTER TABLE Sensor ADD COLUMN area VARCHAR(255)")
-    # conn.execute("ALTER TABLE Sensor ADD COLUMN description VARCHAR(255)")
-    # conn.execute("ALTER TABLE Sensor ADD COLUMN status VARCHAR(8)")
+    # conn.execute("ALTER TABLE Sensors ADD COLUMN area VARCHAR(255)")
+    # conn.execute("ALTER TABLE Sensors ADD COLUMN description VARCHAR(255)")
+    # conn.execute("ALTER TABLE Sensors ADD COLUMN status VARCHAR(8)")
 
-    # conn.execute("ALTER TABLE TemperatureReading ADD COLUMN location VARCHAR(255)")
-    # conn.execute("ALTER TABLE TemperatureReading DROP COLUMN area")
+    # conn.execute("ALTER TABLE TemperatureReadings ADD COLUMN location VARCHAR(255)")
+    # conn.execute("ALTER TABLE TemperatureReadings DROP COLUMN area")
 
-    # conn.execute("ALTER TABLE Sensor DROP COLUMN area")
+    # conn.execute("ALTER TABLE Sensors DROP COLUMN area")
 
-    print(conn.execute("SELECT * FROM Sensor").fetchall())
+    print(conn.execute("SELECT * FROM Sensors").fetchall())
 
 def get_sql_data():
     conn = sqlite3.connect("../database.db")
@@ -66,16 +66,16 @@ def get_sql_data():
         for column_header in table_info.description:
             print(f'col: {column_header[0]}|')
 
-    # print(conn.execute("SELECT * FROM Sensor").fetchall())
+    # print(conn.execute("SELECT * FROM Sensors").fetchall())
 
 def change_sensor_info():
     conn = sqlite3.connect("../database.db")
     cursor = conn.cursor()
     
-    sensors = cursor.execute("SELECT * FROM Sensor").fetchall()
+    sensors = cursor.execute("SELECT * FROM Sensors").fetchall()
     conn.commit()
 
-    for sensor in sensors:
+    for Sensors in sensors:
         longitude = random.uniform(-180, 180)
         latitude = random.uniform(-90, 90)
         location = f'{longitude:.3f}, {latitude:.3f}'
@@ -84,7 +84,7 @@ def change_sensor_info():
 
         description = "N/A"
 
-        query = f"UPDATE Sensor SET location = '{location}', status = '{status}', description = '{description}' WHERE id = + {str(sensor[0])}"
+        query = f"UPDATE Sensors SET location = '{location}', status = '{status}', description = '{description}' WHERE id = + {str(Sensors[0])}"
         
         cursor.execute(query)
         conn.commit()
