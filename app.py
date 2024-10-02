@@ -5,6 +5,7 @@ import time
 import os
 import sqlite3
 from flask import render_template, Flask, request, redirect, url_for, session, jsonify
+from sensor.sensor import change_sensor_info
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
@@ -226,18 +227,48 @@ def sensors():
 
     return render_template('sensors.html', sensors=sensors)
 
-@app.route('/add-Sensors', methods=['GET', 'POST'])
+@app.route('/add-sensor', methods=['GET', 'POST'])
 def add_sensor_route():
     if request.method == 'POST':
         sensor_name = request.form['sensor_name']
-        location = request.form['location']
-        add_sensor(sensor_name, location)  # Add Sensors to the database
+
+        # Call the function to get updated locations
+        locations = change_sensor_info()  # This will return a list of updated locations
+
+        # Assuming you want to use the first updated location (if multiple sensors are updated)
+        if locations:  # Check if there are updated locations
+            location = locations[0]  # Use the first location
+        else:
+            location = "Unknown"  # Fallback if no location is returned
+
+        add_sensor(sensor_name, location)  # Add sensor to the database
         return redirect(url_for('readings'))  # Redirect back to the readings page
     
-    return render_template('add_sensor.html')  # Render the form to add a new Sensors
+    return render_template('add_sensor.html')  # Render the form to add a new sensor
 
 
+@app.route("/admin_centre/")
+def admin_centre():
+ latest_readings = get_latest_readings()
+#     conn = sqlite3.connect(DATABASE)
+#     sensors = conn.execute('SELECT * FROM TemperatureReading').fetchall()
+#     conn.close()
+#     sensors=sensors
+ return render_template("admin_centre.html", readings=latest_readings )
+
+
+
+    
 if __name__ == "__main__":
     app.run(debug=True)
 
 
+# @app.route('/add-sensor', methods=['GET', 'POST'])
+# def add_sensor_route():
+#     if request.method == 'POST':
+#         sensor_name = request.form['sensor_name']
+#         location = change_sensor_info
+#         add_sensor(sensor_name, location)  # Add Sensors to the database
+#         return redirect(url_for('readings'))  # Redirect back to the readings page
+    
+#     return render_template('add_sensor.html')  # Render the form to add a new Sensors

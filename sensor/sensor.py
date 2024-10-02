@@ -3,6 +3,8 @@ import json
 import random
 import requests
 import requests.exceptions
+import sqlite3
+import os
 
 from datetime import datetime
 
@@ -15,7 +17,7 @@ def send_meter_data():
         
         if sensors:
             for sensor in sensors:
-                reading = 0
+                reading = random.randint(20, 35)
                 
                 if sensor[4] == "ACTIVE":
                     reading = random.randint(20, 35)
@@ -79,11 +81,14 @@ def get_sql_data():
     # print(conn.execute("SELECT * FROM Sensors").fetchall())
 
 def change_sensor_info():
-    conn = sqlite3.connect("../database.db")
+    db_path = os.path.join(os.path.dirname(__file__), "../database.db")#absolute path
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     sensors = cursor.execute("SELECT * FROM Sensors").fetchall()
     conn.commit()
+
+    updated_locations = []  # List to store updated locations
 
     for Sensors in sensors:
         longitude = random.uniform(-180, 180)
@@ -96,10 +101,14 @@ def change_sensor_info():
 
         query = f"UPDATE Sensors SET location = '{location}', status = '{status}', description = '{description}' WHERE id = + {str(Sensors[0])}"
         
+        updated_locations.append(location)  # Store updated location
+
         cursor.execute(query)
         conn.commit()
     
     conn.close()
+
+    return updated_locations  # Return list of updated locations
 
 # change_sensor_info()
 # add_col_to_table()

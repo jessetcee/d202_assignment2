@@ -4,6 +4,8 @@
         {% if session.get('is_admin') %}
         <a href="{{ url_for('readings') }}">READINGS</a>
         <a href="{{ url_for('sensors') }}">SENSORS</a>
+        <a href="{{ url_for('admin_centre') }}">ADMINCentre</a>
+
         {% endif %}
     </div>
     <a href="{{ url_for('logout') }}">LOG OUT</a>
